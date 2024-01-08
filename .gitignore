@@ -155,5 +155,26 @@ iOSInjectionProject/
 
 # End of https://www.toptal.com/developers/gitignore/api/fastlane,swift,xcode,macos
 
+### Xcode Patch ###
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+
+### Projects ###
+*.xcodeproj
+*.xcworkspace
+
+### Tuist derived files ###
+graph.dot
+Derived/
+
+### Tuist managed dependencies ###
+Tuist/Dependencies
+
 # Bundler
 vendor/
+
+# Vale
+.styles
