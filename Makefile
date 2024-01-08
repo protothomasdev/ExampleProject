@@ -8,7 +8,7 @@ MISE_VALE_PLUGIN := $(shell mise plugin-list | grep vale)
 
 # ---
 
-generate: setup open
+generate: setup_tuist open
 
 setup: setup_tools setup_project
 
@@ -71,8 +71,8 @@ install_dependencies:
 	mise install
 	bundle install
 
-tuist:
-	mise exec tuist generate -n
+setup_tuist:
+	tuist generate -n
 
 open:
 	open *.xcworkspace
