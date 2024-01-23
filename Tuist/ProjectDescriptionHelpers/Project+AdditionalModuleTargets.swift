@@ -25,6 +25,7 @@ extension Project {
                         deploymentTargets: infoProvider.deploymentTargets,
                         sources: ["Tests/**/*.swift"],
                         resources: withTestData ? ["Tests/TestData/**"] : nil,
+                        scripts: .formatting,
                         dependencies: [.target(name: moduleName)]
                     )
                     

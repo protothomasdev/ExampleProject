@@ -1,0 +1,72 @@
+#disable following rules
+disabled_rules:
+  - todo # TODOs and FIXMEs should be resolved.
+  - multiple_closures_with_trailing_closure # Trailing closure syntax should not be used when passing more than one closure argument.
+  - switch_case_alignment # Case statements should vertically align with their enclosing switch statement, or indented if configured otherwise.
+
+# opt-in following rules
+opt_in_rules:
+  - fatal_error_message # A fatalError call should have a message.
+  - closure_end_indentation # Closure end should have the same indentation as the line that started it.
+  - closure_spacing # Closure expressions should have a single space inside each brace.
+  - empty_count # Prefer checking isEmpty over comparing count to zero.
+  - empty_string # Prefer checking isEmpty over comparing string to an empty string literal.
+  - explicit_init # Explicitly calling .init() should be avoided.
+  - force_unwrapping # Force unwrapping should be avoided.
+  - literal_expression_end_indentation # Array and dictionary literal end should have the same indentation as the line that started it.
+  - modifier_order # Modifier order should be consistent.
+  - operator_usage_whitespace # Operators should be surrounded by a single whitespace when they are being used.
+  - overridden_super_call # Some overridden methods should always call super.
+  - redundant_nil_coalescing # nil coalescing operator is only evaluated if the lhs is nil, coalescing operator with nil as rhs is redundant
+  - unneeded_parentheses_in_closure_argument # Parentheses are not needed when declaring closure arguments.
+
+# paths to include
+included:
+
+# paths to ignore during linting
+excluded:
+  - .tuist-bin
+  - Tuist
+  - fastlane
+  - Pods
+  - Projects/Pods
+  - .vendor
+
+# custom values
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+file_length:
+  warning: 600
+  error: 800
+
+force_cast: warning
+force_try: warning
+
+function_body_length:
+  warning: 40
+  error: 80
+
+identifier_name:
+  min_length:
+    error: 0
+    warning: 0
+
+line_length:
+  warning: 200
+  error: 220
+  ignores_comments: true
+
+nesting:
+  type_level:
+    warning: 2
+
+trailing_whitespace:
+  ignores_empty_lines: true
+
+type_body_length:
+  warning: 275
+  error: 400
+
+vertical_whitespace:
+  max_empty_lines: 2

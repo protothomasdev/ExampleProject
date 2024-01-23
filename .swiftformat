@@ -1,0 +1,31 @@
+--swiftversion 5.9
+
+# file options
+--exclude Pods,vendor,.bundle,**/Derived,**/SwiftGen/Assets.swift,**/Pods,Tuist
+
+# format options
+--indent 4
+--indentcase true
+--xcodeindentation true
+--stripunusedargs closure-only
+--self init-only
+--wraparguments after-first
+--wrapcollections before-first
+--typeattributes prev-line
+--funcattributes prev-line
+--typeblanklines preserve
+--importgrouping testable-last
+
+# disabled rules
+
+--disable trailingCommas
+--disable redundantType
+--disable wrapMultilineStatementBraces
+--disable redundantReturn
+
+# opt-in rules
+
+--enable wrapSwitchCases
+--enable wrapEnumCases
+--enable blockComments
+--enable blankLinesBetweenImports

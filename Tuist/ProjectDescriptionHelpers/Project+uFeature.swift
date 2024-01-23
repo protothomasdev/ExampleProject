@@ -70,7 +70,7 @@ extension Project {
                             infoPlist: .default,
                             sources: ["Sources/**/*.swift"],
                             resources: kind.isFramework ? ["Resources/**"] : nil,
-//                            scripts: .runScripts(),
+                            scripts: .linting,
                             dependencies: dependencies ?? [],
                             settings: targetSettings)
         targets.append(module)

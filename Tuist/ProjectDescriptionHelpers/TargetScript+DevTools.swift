@@ -5,22 +5,21 @@ import ProjectDescription
 extension TargetScript {
 
 // TODO: Fix the Scripts with mise
-    static var swiftLint: TargetScript {
-        return .pre(path: Path.relativeToRoot("swiftlint"),
-                    arguments: ["--config ../../.swiftlint.yml"],
-                    name: "SwiftLint Linting",
+    static var linting: TargetScript {
+        return .pre(path: Path.relativeToRoot("Scripts/codelinting.sh"),
+                    name: "Code Linting",
+                    inputFileListPaths: [
+                        Path.relativeToRoot(".tool-versions")
+                    ],
                     basedOnDependencyAnalysis: false)
     }
 
-    static func swiftFormat(linting: Bool = false) -> TargetScript {
-        var arguments = ["--config ../../.swiftformat ."]
-        if linting {
-            arguments.insert("--lint --lenient", at: 0)
-        }
-        let name = linting ? "SwiftFormat Linting" : "SwiftFormat"
-        return .pre(path: Path.relativeToRoot("swiftformat"),
-                    arguments: arguments,
-                    name: name,
+    static var formatting: TargetScript {
+        return .pre(path: Path.relativeToRoot("Scripts/codeformatting.sh"),
+                    name: "Code Formatting",
+                    inputFileListPaths: [
+                        Path.relativeToRoot(".tool-versions")
+                    ],
                     basedOnDependencyAnalysis: false)
     }
 
@@ -28,16 +27,15 @@ extension TargetScript {
 
 extension Collection where Element == TargetScript {
 
-    public static func runScripts() -> [Element] {
+    public static var linting: [Element] {
         return [
-            .swiftLint,
-            .swiftFormat(linting: true)
+            .linting
         ]
     }
 
-    public static func formatScripts() -> [Element] {
+    public static var formatting: [Element] {
         return [
-            .swiftFormat()
+            .formatting
         ]
     }
 

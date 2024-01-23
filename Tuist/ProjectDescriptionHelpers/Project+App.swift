@@ -47,7 +47,7 @@ extension Project {
                    infoPlist: .extendingDefault(with: infoPlist),
                    sources: ["Sources/**"],
                    resources: ["Resources/**"],
-                   scripts: [],
+                   scripts: .linting,
                    dependencies: dependencies,
                    settings: targetSettings
                   ),
@@ -58,7 +58,7 @@ extension Project {
                    infoPlist: .default,
                    sources: ["Tests/**"],
                    resources: withTestData ? ["Tests/TestData/**"] : nil,
-                   scripts: [],
+                   scripts: .formatting,
                    dependencies: [
                     .target(name: "\(name)")
                    ],
