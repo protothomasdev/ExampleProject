@@ -5,7 +5,7 @@ let project = Project.module(name: "Core",
                              kind: .dynamicFramework,
                              destinations: [.iPhone],
                              additionalTargets: [
-                                .unitTests(),
-                                .exampleApp()
+                                 .unitTests(),
+                                 .exampleApp()
                              ],
                              infoProvider: InfoProvider())

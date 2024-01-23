@@ -4,7 +4,6 @@ import ProjectDescription
 
 extension TargetScript {
 
-// TODO: Fix the Scripts with mise
     static var linting: TargetScript {
         return .pre(path: Path.relativeToRoot("Scripts/codelinting.sh"),
                     name: "Code Linting",
