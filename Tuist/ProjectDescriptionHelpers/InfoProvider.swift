@@ -16,6 +16,8 @@ public protocol ProjectInfoProviding {
     var projectConfigs: [Configuration] { get }
     var appTargetConfigs: [Configuration] { get }
     var deploymentTargets: DeploymentTargets { get }
+    var interfaceOrientations: Plist.Value { get }
+    var appProjectOptions: Project.Options { get }
 }
 
 public struct InfoProvider: ProjectInfoProviding {
@@ -35,6 +37,8 @@ public struct InfoProvider: ProjectInfoProviding {
         return BuildConfiguration.allCases.map{ $0.targetConfig(info: self) }
     }
     public let deploymentTargets: DeploymentTargets = .init(iOS: "17.0")
+    public let interfaceOrientations: Plist.Value = ["UIInterfaceOrientationPortrait"]
+    public let appProjectOptions: Project.Options = .options(developmentRegion: "de")
     
     public init() {}
 }

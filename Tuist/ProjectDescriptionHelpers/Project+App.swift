@@ -12,16 +12,12 @@ extension Project {
                            withTestData: Bool = false,
                            dependencies: [TargetDependency] = [],
                            infoProvider: ProjectInfoProviding) -> Project {
-        // TODO: Move the Info.plist information into the Project.swift file
-        // TODO: Write Plugin zu simplify generation of info.plist files
         let infoPlist: [String: Plist.Value] = [
             "CFBundleShortVersionString": "\(infoProvider.appVersionNumber)",
-            "CFBundleVersion": "1",
+            "CFBundleVersion": "1", // Will be overwritten by CI/CD pipeline
             "ITSAppUsesNonExemptEncryption": "NO",
             "UILaunchStoryboardName": "LaunchScreen",
-            "UISupportedInterfaceOrientations": [
-                "UIInterfaceOrientationPortrait"
-            ],
+            "UISupportedInterfaceOrientations": infoProvider.interfaceOrientations,
             "UIApplicationSceneManifest": [
                 "UIApplicationSupportsMultipleScenes": false,
                 "UISceneConfigurations": [:]
@@ -65,9 +61,8 @@ extension Project {
                    settings: testTargetSettings)
         ]
         
-        // TODO: Pass the development Region as a parameter
         return Project(name: name,
-                       options: .options(developmentRegion: "de"),
+                       options: infoProvider.appProjectOptions,
                        settings: projectSettings,
                        targets: targets)
     }
