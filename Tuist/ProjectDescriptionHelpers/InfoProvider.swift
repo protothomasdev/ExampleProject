@@ -7,6 +7,10 @@ public protocol ProjectInfoProviding {
     var appVersionNumber: String { get }
     var bundleID: String { get }
     var developerName: String { get }
+    var developmentTeamID: String { get }
+    var developmentSigningIdentity: String { get }
+    var distributionTeamID: String { get }
+    var distributionSigningIdentity: String { get }
     var xcodeVersion: Version { get }
     var swiftVersion: Version { get }
     var projectConfigs: [Configuration] { get }
@@ -18,6 +22,10 @@ public struct InfoProvider: ProjectInfoProviding {
     public let appVersionNumber: String = "1.0.0"
     public let bundleID: String = "com.protothomas.example"
     public let developerName: String = "Thomas Meyer"
+    public let developmentTeamID: String = "DEV123456"
+    public let developmentSigningIdentity: String = "Protothomas Development"
+    public let distributionTeamID: String = "DIS123456"
+    public let distributionSigningIdentity: String = "Protothomas Distribution"
     public let xcodeVersion: Version = "15.2.0"
     public let swiftVersion: Version = "5.9"
     public var projectConfigs: [Configuration] {
@@ -69,29 +77,29 @@ public enum BuildConfiguration: String, CaseIterable {
             case .mock:
                 return .debug(name: name,
                               bundleID: "\(info.bundleID).app.mock",
-                              signingIdentity: "", // TODO: Set default Signing Identity based on the bundleID schemes
-                              developmentTeam: "", // TODO: Get the development Team from the Info Provider
+                              signingIdentity: "",
+                              developmentTeam: "",
                               profile: "",
                               entitlements: "") // TODO: Set default Entitlements
             case .debug:
                 return .debug(name: name,
                               bundleID: "\(info.bundleID).app.development",
-                              signingIdentity: "Protothomas Development",
-                              developmentTeam: "Protothomas Dev",
+                              signingIdentity: info.developmentSigningIdentity,
+                              developmentTeam: info.developmentTeamID,
                               profile: "match Development \(info.bundleID).app.development",
                               entitlements: "nil")
             case .beta:
                 return .release(name: name,
                                 bundleID: "\(info.bundleID).app.beta",
-                                signingIdentity: "Protothomas Distribution",
-                                developmentTeam: "Protothomas Live",
+                                signingIdentity: info.distributionSigningIdentity,
+                                developmentTeam: info.distributionTeamID,
                                 profile: "match AdHoc \(info.bundleID).app.beta", // Or "match AppStore/Enterprise ..."
                                 entitlements: "nil")
             case .release:
                 return .release(name: name,
                                 bundleID: "\(info.bundleID).app",
-                                signingIdentity: "Protothomas Distribution",
-                                developmentTeam: "Protothomas Live",
+                                signingIdentity: info.distributionSigningIdentity,
+                                developmentTeam: info.distributionTeamID,
                                 profile: "match AppStore \(info.bundleID).app", // Or "match AppStore/Enterprise ..."
                                 entitlements: "nil")
         }
