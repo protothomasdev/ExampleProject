@@ -34,7 +34,6 @@ extension Project {
                         "CFBundleShortVersionString": "1.0.0",
                         "CFBundleVersion": "1",
                         "NSLocationWhenInUseUsageDescription": "Current location",
-                        "UIMainStoryboardFile": "",
                         "UILaunchStoryboardName": "",
                         "UIApplicationSceneManifest": [
                             "UIApplicationSupportsMultipleScenes": false,

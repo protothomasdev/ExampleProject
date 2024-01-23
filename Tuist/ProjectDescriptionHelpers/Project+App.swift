@@ -1,23 +1,24 @@
 // Copyright © 2024 Thomas Meyer. All rights reserved.
 
 import ProjectDescription
+import TuistXCBuildSettings
 
 extension Project {
-
+    
     // MARK: - Public
-
+    
     public static func app(name: String,
                            destinations: Destinations,
                            withTestData: Bool = false,
                            dependencies: [TargetDependency] = [],
                            infoProvider: ProjectInfoProviding) -> Project {
+        // TODO: Move the Info.plist information into the Project.swift file
+        // TODO: Write Plugin zu simplify generation of info.plist files
         let infoPlist: [String: Plist.Value] = [
             "CFBundleShortVersionString": "\(infoProvider.appVersionNumber)",
-            "CFBundleVersion": "$(BUNDLE_VERSION)",
+            "CFBundleVersion": "1",
             "ITSAppUsesNonExemptEncryption": "NO",
-            "UIMainStoryboardFile": "",
             "UILaunchStoryboardName": "LaunchScreen",
-            "UIUserInterfaceStyle": "Light",
             "UISupportedInterfaceOrientations": [
                 "UIInterfaceOrientationPortrait"
             ],
@@ -26,16 +27,17 @@ extension Project {
                 "UISceneConfigurations": [:]
             ]
         ]
-
-        let baseSettings: SettingsDictionary = [
-            "CFBundleDisplayName": .string(name),
-            "CODE_SIGNING_STYLE": "Manual"
-        ]
-
+        
+        let baseSettings = SettingsDictionary(buildSettings: [
+            .infoPlistKeyCFBundleDisplayName(name),
+            .codeSignStyle(.manual)
+        ])
+        
         let targetSettings: Settings = .settings(base: baseSettings,
                                                  configurations: infoProvider.appTargetConfigs)
+        let testTargetSettings: Settings = .settings(base: baseSettings, configurations: [])
         let projectSettings: Settings = .settings(configurations: infoProvider.projectConfigs)
-
+        
         let targets = [
             Target(name: name,
                    destinations: destinations,
@@ -59,13 +61,15 @@ extension Project {
                    scripts: [],
                    dependencies: [
                     .target(name: "\(name)")
-                   ])
+                   ],
+                   settings: testTargetSettings)
         ]
-
+        
+        // TODO: Pass the development Region as a parameter
         return Project(name: name,
                        options: .options(developmentRegion: "de"),
                        settings: projectSettings,
                        targets: targets)
     }
-
+    
 }

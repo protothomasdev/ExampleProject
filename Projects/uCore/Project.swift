@@ -1,7 +1,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.module(name: "uCore",
+let project = Project.module(name: "Core",
                              kind: .dynamicFramework,
                              destinations: [.iPhone],
                              additionalTargets: [

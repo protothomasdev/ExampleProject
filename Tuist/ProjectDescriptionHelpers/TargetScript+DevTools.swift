@@ -4,6 +4,7 @@ import ProjectDescription
 
 extension TargetScript {
 
+// TODO: Fix the Scripts with mise
     static var swiftLint: TargetScript {
         return .pre(path: Path.relativeToRoot("swiftlint"),
                     arguments: ["--config ../../.swiftlint.yml"],

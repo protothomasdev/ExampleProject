@@ -1,6 +1,7 @@
 // Copyright © 2024 Thomas Meyer. All rights reserved.
 
 import ProjectDescription
+import TuistXCBuildSettings
 
 extension Project {
     
@@ -47,36 +48,31 @@ extension Project {
         
         var targets: [Target] = []
 
-        let targetSettings = Settings.settings(configurations: [
-            .debug(
-                name: "MOCK",
-                settings: ["SWIFT_ACTIVE_COMPILATION_CONDITIONS": "MOCK"]
-            ),
-            .debug(
-                name: "DEBUG",
-                settings: ["SWIFT_ACTIVE_COMPILATION_CONDITIONS": "DEBUG"]
-            ),
-            .release(
-                name: "BETA",
-                settings: ["SWIFT_ACTIVE_COMPILATION_CONDITIONS": "BETA"]
-            ),
-            .release(
-                name: "RELEASE",
-                settings: ["SWIFT_ACTIVE_COMPILATION_CONDITIONS": "RELEASE"]
-            )
-        ])
+        let configs: [Configuration] = BuildConfiguration.allCases.map { config in
+            let name = config.name
+            let baseSettings: SettingsDictionary = [
+                .productBundleIdentifier("\(infoProvider.bundleID).u.\(name)"),
+                .swiftActiveCompilationConditions([name.uppercased()])
+            ]
+            if config.isDistribution {
+                return .release(name: .configuration(name), settings: baseSettings)
+            } else {
+                return .debug(name: .configuration(name), settings: baseSettings)
+            }
+        }
+        let targetSettings = Settings.settings(configurations: configs)
         
         let module = Target(name: moduleName,
                             destinations: destinations,
-                             product: kind.product,
-                             bundleId: "\(infoProvider.bundleID).u.\(name)",
-                             deploymentTargets: infoProvider.deploymentTargets,
-                             infoPlist: .default,
-                             sources: ["Sources/**/*.swift"],
-                             resources: kind.isFramework ? ["Resources/**"] : nil,
-                             scripts: .runScripts(),
-                             dependencies: dependencies ?? [],
-                             settings: targetSettings)
+                            product: kind.product,
+                            bundleId: "\(infoProvider.bundleID).u.\(name)",
+                            deploymentTargets: infoProvider.deploymentTargets,
+                            infoPlist: .default,
+                            sources: ["Sources/**/*.swift"],
+                            resources: kind.isFramework ? ["Resources/**"] : nil,
+//                            scripts: .runScripts(),
+                            dependencies: dependencies ?? [],
+                            settings: targetSettings)
         targets.append(module)
         
         let additionalTargets = Project.moduleTargets(name: name,
