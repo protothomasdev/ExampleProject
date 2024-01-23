@@ -69,33 +69,34 @@ public enum BuildConfiguration: String, CaseIterable {
             case .mock:
                 return .debug(name: name,
                               bundleID: "\(info.bundleID).app.mock",
-                              signingIdentity: "Protothomas Development", // TODO: Set default Signing Identity based on the bundleID schemes
-                              developmentTeam: "Protothomas Dev", // TODO: Get the development Team from the Info Provider
-                              profile: "Protothomas Profile 1", // TODO: Set default profile on the bundleID schemes
-                              entitlements: "nil") // TODO: Set default Entitlements
+                              signingIdentity: "", // TODO: Set default Signing Identity based on the bundleID schemes
+                              developmentTeam: "", // TODO: Get the development Team from the Info Provider
+                              profile: "",
+                              entitlements: "") // TODO: Set default Entitlements
             case .debug:
                 return .debug(name: name,
                               bundleID: "\(info.bundleID).app.development",
                               signingIdentity: "Protothomas Development",
                               developmentTeam: "Protothomas Dev",
-                              profile: "Protothomas Profile 2",
+                              profile: "match Development \(info.bundleID).app.development",
                               entitlements: "nil")
             case .beta:
                 return .release(name: name,
                                 bundleID: "\(info.bundleID).app.beta",
                                 signingIdentity: "Protothomas Distribution",
                                 developmentTeam: "Protothomas Live",
-                                profile: "Protothomas Profile 3",
+                                profile: "match AdHoc \(info.bundleID).app.beta", // Or "match AppStore/Enterprise ..."
                                 entitlements: "nil")
             case .release:
                 return .release(name: name,
                                 bundleID: "\(info.bundleID).app",
                                 signingIdentity: "Protothomas Distribution",
                                 developmentTeam: "Protothomas Live",
-                                profile: "Protothomas Profile 4",
+                                profile: "match AppStore \(info.bundleID).app", // Or "match AppStore/Enterprise ..."
                                 entitlements: "nil")
         }
     }
+    
 }
 
 extension Configuration {
