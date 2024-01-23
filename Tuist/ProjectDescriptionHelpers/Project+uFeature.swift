@@ -49,15 +49,14 @@ extension Project {
         var targets: [Target] = []
 
         let configs: [Configuration] = BuildConfiguration.allCases.map { config in
-            let name = config.name
             let baseSettings: SettingsDictionary = [
-                .productBundleIdentifier("\(infoProvider.bundleID).u.\(name)"),
-                .swiftActiveCompilationConditions([name.uppercased()])
+                .productBundleIdentifier("\(infoProvider.bundleID).u.\(name).\(config.name.lowercased())"),
+                .swiftActiveCompilationConditions([config.name.uppercased()])
             ]
             if config.isDistribution {
-                return .release(name: .configuration(name), settings: baseSettings)
+                return .release(name: .configuration(config.name), settings: baseSettings)
             } else {
-                return .debug(name: .configuration(name), settings: baseSettings)
+                return .debug(name: .configuration(config.name), settings: baseSettings)
             }
         }
         let targetSettings = Settings.settings(configurations: configs)

@@ -24,7 +24,7 @@ public struct InfoProvider: ProjectInfoProviding {
         return BuildConfiguration.allCases.map(\.projectConfig)
     }
     public var appTargetConfigs: [Configuration] {
-        return BuildConfiguration.allCases.map(\.targetConfig)
+        return BuildConfiguration.allCases.map{ $0.targetConfig(info: self) }
     }
     public let deploymentTargets: DeploymentTargets = .init(iOS: "17.0")
     
@@ -64,32 +64,32 @@ public enum BuildConfiguration: String, CaseIterable {
         }
     }
     
-    var targetConfig: Configuration {
+    func targetConfig(info: ProjectInfoProviding) -> Configuration {
         switch self {
             case .mock:
                 return .debug(name: name,
-                              bundleID: "com.protothomas.app.mock", // TODO: Set default Bundle ID
+                              bundleID: "\(info.bundleID).app.mock",
                               signingIdentity: "Protothomas Development", // TODO: Set default Signing Identity based on the bundleID schemes
                               developmentTeam: "Protothomas Dev", // TODO: Get the development Team from the Info Provider
                               profile: "Protothomas Profile 1", // TODO: Set default profile on the bundleID schemes
                               entitlements: "nil") // TODO: Set default Entitlements
             case .debug:
                 return .debug(name: name,
-                              bundleID: "com.protothomas.app.development",
+                              bundleID: "\(info.bundleID).app.development",
                               signingIdentity: "Protothomas Development",
                               developmentTeam: "Protothomas Dev",
                               profile: "Protothomas Profile 2",
                               entitlements: "nil")
             case .beta:
                 return .release(name: name,
-                                bundleID: "com.protothomas.app.beta",
+                                bundleID: "\(info.bundleID).app.beta",
                                 signingIdentity: "Protothomas Distribution",
                                 developmentTeam: "Protothomas Live",
                                 profile: "Protothomas Profile 3",
                                 entitlements: "nil")
             case .release:
                 return .release(name: name,
-                                bundleID: "com.protothomas.app",
+                                bundleID: "\(info.bundleID).app",
                                 signingIdentity: "Protothomas Distribution",
                                 developmentTeam: "Protothomas Live",
                                 profile: "Protothomas Profile 4",
@@ -109,7 +109,7 @@ extension Configuration {
         let settings: SettingsDictionary = [
             .codeSignIdentity(signingIdentity),
 //            .codeSignEntitlements(entitlements),
-            .productBundleIdentifier(bundleID), // TODO: Check why this is not used correctly
+            .productBundleIdentifier(bundleID),
             .provisioningProfileSpecifier(profile),
             .developmentTeam(developmentTeam),
             .swiftActiveCompilationConditions([name.uppercased()])
@@ -127,7 +127,7 @@ extension Configuration {
         let settings: SettingsDictionary = [
             .codeSignIdentity(signingIdentity),
 //            .codeSignEntitlements(entitlements),
-            .productBundleIdentifier(bundleID), // TODO: Check why this is not used correctly
+            .productBundleIdentifier(bundleID),
             .provisioningProfileSpecifier(profile),
             .developmentTeam(developmentTeam),
             .swiftActiveCompilationConditions([name.uppercased()])
