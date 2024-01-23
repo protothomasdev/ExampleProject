@@ -80,28 +80,28 @@ public enum BuildConfiguration: String, CaseIterable {
                               signingIdentity: "",
                               developmentTeam: "",
                               profile: "",
-                              entitlements: "") // TODO: Set default Entitlements
+                              entitlements: Path.relativeToManifest("Resources/Entitlements/Mock.entitlements"))
             case .debug:
                 return .debug(name: name,
                               bundleID: "\(info.bundleID).app.development",
                               signingIdentity: info.developmentSigningIdentity,
                               developmentTeam: info.developmentTeamID,
                               profile: "match Development \(info.bundleID).app.development",
-                              entitlements: "nil")
+                              entitlements: Path.relativeToManifest("Resources/Entitlements/Debug.entitlements"))
             case .beta:
                 return .release(name: name,
                                 bundleID: "\(info.bundleID).app.beta",
                                 signingIdentity: info.distributionSigningIdentity,
                                 developmentTeam: info.distributionTeamID,
                                 profile: "match AdHoc \(info.bundleID).app.beta", // Or "match AppStore/Enterprise ..."
-                                entitlements: "nil")
+                                entitlements: Path.relativeToManifest("Resources/Entitlements/Beta.entitlements"))
             case .release:
                 return .release(name: name,
                                 bundleID: "\(info.bundleID).app",
                                 signingIdentity: info.distributionSigningIdentity,
                                 developmentTeam: info.distributionTeamID,
                                 profile: "match AppStore \(info.bundleID).app", // Or "match AppStore/Enterprise ..."
-                                entitlements: "nil")
+                                entitlements: Path.relativeToManifest("Resources/Entitlements/Release.entitlements"))
         }
     }
     
@@ -114,10 +114,10 @@ extension Configuration {
                              signingIdentity: String,
                              developmentTeam: String,
                              profile: String,
-                             entitlements: String) -> ProjectDescription.Configuration {
+                             entitlements: ProjectDescription.Path) -> ProjectDescription.Configuration {
         let settings: SettingsDictionary = [
             .codeSignIdentity(signingIdentity),
-//            .codeSignEntitlements(entitlements),
+            .codeSignEntitlements(entitlements.pathString),
             .productBundleIdentifier(bundleID),
             .provisioningProfileSpecifier(profile),
             .developmentTeam(developmentTeam),
@@ -132,10 +132,10 @@ extension Configuration {
                                signingIdentity: String,
                                developmentTeam: String,
                                profile: String,
-                               entitlements: String) -> ProjectDescription.Configuration {
+                               entitlements: ProjectDescription.Path) -> ProjectDescription.Configuration {
         let settings: SettingsDictionary = [
             .codeSignIdentity(signingIdentity),
-//            .codeSignEntitlements(entitlements),
+            .codeSignEntitlements(entitlements.pathString),
             .productBundleIdentifier(bundleID),
             .provisioningProfileSpecifier(profile),
             .developmentTeam(developmentTeam),
