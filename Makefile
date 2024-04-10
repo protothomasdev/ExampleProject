@@ -2,8 +2,8 @@ WORKSPACE := $(shell [ -e ./*.xcworkspace ] && echo 1 || echo 0 )
 PROJECT := $(shell [ -e ./*.xcodeproj ] && echo 1 || echo 0 )
 HOMEBREW := $(shell command -v brew 2>/dev/null)
 MISE := $(shell command -v mise 2>/dev/null)
-TUIST := $(shell [ -e ./*.xcworkspace ] && echo 1 || echo 0 )
-XCODEGEN := $(shell [ -e ./*.xcodeproj ] && echo 1 || echo 0 )
+TUIST := $(shell [ -e ./Workspace.swift ] && echo 1 || echo 0 )
+XCODEGEN := $(shell [ -e ./project.yml ] && echo 1 || echo 0 )
 PODFILE := $(shell find . -name Podfile 2>/dev/null)
 
 .PHONY: all generate setup open nuke setup_tools setup_project check_brew install_mise install_devtools install_gems generate_project install_dependencies
