@@ -1,7 +1,5 @@
-ruby 3.1.4
-tuist 3.39.0
-xcodegen 2.37.0
-swiftlint 0.54.0
-swiftformat 0.52.11
-cocoapods 1.13.0
-vale 3.4.2
+tuist 4.23.0
+xcodegen 2.42.0
+swiftlint 0.56.1
+swiftformat 0.54.3
+vale 3.7.0
